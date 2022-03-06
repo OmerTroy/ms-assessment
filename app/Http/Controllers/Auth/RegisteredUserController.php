@@ -57,7 +57,7 @@ class RegisteredUserController extends Controller
                 $ipaddress = 'UNKNOWN';
             return $ipaddress;
         }
-        
+
 
         $user_ip = getenv('REMOTE_ADDR');
         $geo = unserialize(file_get_contents("http://www.geoplugin.net/php.gp?ip=$user_ip"));
@@ -66,7 +66,7 @@ class RegisteredUserController extends Controller
         $region = ($geo) ? $geo['geoplugin_region'] : '';
         $timezone = ($geo) ? $geo['geoplugin_timezone'] : '';
 
-        if (!$geo) {
+        if ($country == '') {
             $user_ip = get_client_ip();
             $geo = unserialize(file_get_contents("http://www.geoplugin.net/php.gp?ip=$user_ip"));
             $country = ($geo) ? $geo['geoplugin_countryName'] : '';
