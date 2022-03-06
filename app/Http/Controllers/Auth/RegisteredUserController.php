@@ -41,10 +41,19 @@ class RegisteredUserController extends Controller
 
         $user_ip = getenv('REMOTE_ADDR');
         $geo = unserialize(file_get_contents("http://www.geoplugin.net/php.gp?ip=$user_ip"));
-        $country = ($geo)? $geo['geoplugin_countryName']:'';
-        $city = ($geo)? $geo['geoplugin_city']:'';
-        $region = ($geo)? $geo['geoplugin_region']:'';
-        $timezone = ($geo)? $geo['geoplugin_timezone']:'';
+        $country = ($geo) ? $geo['geoplugin_countryName'] : '';
+        $city = ($geo) ? $geo['geoplugin_city'] : '';
+        $region = ($geo) ? $geo['geoplugin_region'] : '';
+        $timezone = ($geo) ? $geo['geoplugin_timezone'] : '';
+
+        if (!$geo) {
+            $user_ip = get_client_ip();
+            $geo = unserialize(file_get_contents("http://www.geoplugin.net/php.gp?ip=$user_ip"));
+            $country = ($geo) ? $geo['geoplugin_countryName'] : '';
+            $city = ($geo) ? $geo['geoplugin_city'] : '';
+            $region = ($geo) ? $geo['geoplugin_region'] : '';
+            $timezone = ($geo) ? $geo['geoplugin_timezone'] : '';
+        }
 
 
         $user = User::create([
