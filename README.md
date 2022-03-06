@@ -20,6 +20,5 @@ Set db information
 > php artisan serve
 
 ### Things that are missing/can be improved
-- Not deployed
 - Datetime is not being set when update popup shows up
 - Overall application logic can be improved
