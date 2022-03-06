@@ -29,12 +29,6 @@ Route::get('/', function () {
         date_default_timezone_set($timezone);
     }
 
-    if($country == ''){
-        $user_ip = get_client_ip();
-        $geo = unserialize(file_get_contents("http://www.geoplugin.net/php.gp?ip=$user_ip"));
-        $country = ($geo) ? $geo['geoplugin_countryName'] : '';
-    }
-
     function get_client_ip() {
         $ipaddress = '';
         if (getenv('HTTP_CLIENT_IP'))
@@ -53,6 +47,14 @@ Route::get('/', function () {
             $ipaddress = 'UNKNOWN';
         return $ipaddress;
     }
+
+    if($country == ''){
+        $user_ip = get_client_ip();
+        $geo = unserialize(file_get_contents("http://www.geoplugin.net/php.gp?ip=$user_ip"));
+        $country = ($geo) ? $geo['geoplugin_countryName'] : '';
+    }
+
+    
 
     $tasks = Tasks::where(['type' => 'public'])->orWhere('user_country', $country)->get();
     return view('welcome', ['tasks' => $tasks, 'session_country' => $country]);
